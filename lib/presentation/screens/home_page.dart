@@ -12,7 +12,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+  int _currentIndex = 0; // track selected index
+
+  void _onNavTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    // You can also handle navigation here if you have multiple pages:
+    // if (index == 0) Navigator.push(...);
+  }
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -135,11 +145,11 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 28),
               TopThreeBooks(),
-              SimpleNavBar(currentIndex: null,onTap: (int value) {  },),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: SimpleNavBar(currentIndex: _currentIndex, onTap: _onNavTap),
     );
   }
 }
