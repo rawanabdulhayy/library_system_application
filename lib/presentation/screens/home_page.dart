@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/all_books_widget.dart';
 import 'package:library_system_application/presentation/widgets/top_three_books.dart';
 
@@ -128,6 +129,9 @@ class _HomePageState extends State<HomePage> {
                       'see more',
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_){return SeeMore();}));
+                    },
                   ),
                 ],
               ),
