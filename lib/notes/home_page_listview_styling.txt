@@ -1,0 +1,176 @@
+
+              // SizedBox(
+              //   height:
+              //       MediaQuery.of(context).size.height * 0.35, // 40% of screen
+              //   child: ListView.separated(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: 2,
+              //     itemBuilder: (context, index) {
+              //       return Container(
+              //         clipBehavior: Clip.antiAlias, // makes the border radius clip image too
+              //         width: 180,
+              //         decoration: BoxDecoration(
+              //           color: Colors.black,
+              //           borderRadius: BorderRadius.circular(10),
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.all(10),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               Flexible(
+              //                 flex: 1,
+              //                 child: Image.asset(
+              //                   index == 0
+              //                       ? "assets/images/book_1.png"
+              //                       : "assets/images/book_2.png",
+              //                   fit: BoxFit.cover,
+              //                   height: MediaQuery.of(context).size.height * 0.2,
+              //                 ),
+              //               ),
+              //               const SizedBox(height: 10),
+              //               Flexible(
+              //                 flex:1,
+              //                 child: Column(
+              //                   crossAxisAlignment: CrossAxisAlignment.start,
+              //                   children: [
+              //                     const Text(
+              //                       'Classics',
+              //                       style: TextStyle(
+              //                         color: Colors.white70,
+              //                         fontSize: 14,
+              //                       ),
+              //                     ),
+              //                     const SizedBox(height: 4),
+              //                     Text(
+              //                       index == 0
+              //                           ? 'The Picture of Dorian Gray'
+              //                           : 'The Catcher in the Rye',
+              //                       style: const TextStyle(
+              //                         color: Colors.white,
+              //                         fontSize: 16,
+              //                         fontWeight: FontWeight.w600,
+              //                         height: 1.2,
+              //                       ),
+              //                     ),
+              //                     const SizedBox(height: 6),
+              //                     Text(
+              //                       index == 0 ? 'Oscar Wilde' : 'J.D.Salinger',
+              //                       style: const TextStyle(
+              //                         color: Colors.white70,
+              //                         fontSize: 14,
+              //                       ),
+              //                     ),
+              //                     const SizedBox(height: 8),
+              //                     Text(
+              //                       index == 0 ? '\$25.00' : '\$30.00',
+              //                       style: const TextStyle(
+              //                         color: Colors.white,
+              //                         fontSize: 18,
+              //                         fontWeight: FontWeight.bold,
+              //                       ),
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       );
+              //     },
+              //     separatorBuilder: (context, index) =>
+              //         const SizedBox(width: 16),
+              //   ),
+              // ),
+
+              That’s a really good question — your version is **quite close** to what I sent, but there are a few *important* structural and styling differences that explain the visual differences (like the unwanted black border and uneven layout).
+
+              Let’s break it down clearly 👇
+
+              ---
+
+              ### 🧩 Your version:
+
+              ```dart
+              Container(
+                color: Colors.black, // <-- entire card background black
+                borderRadius: BorderRadius.circular(10),
+                clipBehavior: Clip.antiAlias,
+                child: Padding( // <-- adds inner white/black spacing border illusion
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Flexible(flex: 1, child: Image.asset(...)),
+                      SizedBox(height: 10),
+                      Flexible(flex: 1, child: Column(...))
+                    ],
+                  ),
+                ),
+              )
+              ```
+
+              **Key effects:**
+
+              1. 🔲 **Black outer container color** → makes the *whole* card black, including behind the image, so you see that *black frame border* around the image edges.
+              2. 🧱 **Padding inside** → separates the image from the black background, which exaggerates that “black border” even more.
+              3. 🧮 **Fixed `SizedBox(height: 10)` between flex children** → breaks the 50/50 balance since that adds extra space outside the flex ratio.
+              4. 🧩 **The lower section shares parent’s black color** but not separated into its own half (so visually not distinct halves).
+              5. 🧰 **No ClipRRect wrapping both halves** → means the radius applies unevenly if image doesn’t exactly fill the top part.
+
+              ---
+
+              ### 🧠 My version:
+
+              ```dart
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Column(
+                  children: [
+                    Expanded(flex: 1, child: Image.asset(...)),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.black,
+                        padding: const EdgeInsets.all(10),
+                        child: ...
+                      ),
+                    ),
+                  ],
+                ),
+              )
+              ```
+
+              **Key differences:**
+
+              1. 🚫 **No outer black color** — the image goes edge-to-edge at the top, no black border at all.
+              2. ✂️ **ClipRRect** ensures both the image and black section share one clean rounded border.
+              3. ⚫ **Black only on bottom half** — clean color split.
+              4. ⚖️ **`Expanded` for both halves** — guarantees perfect 50/50 height split, no manual sizing.
+              5. 📏 **No extra padding between halves** — no extra height distortion.
+
+              ---
+
+              ### 🎨 Visual Summary
+
+              | Feature                     | Your Code                            | My Code                |
+              | --------------------------- | ------------------------------------ | ---------------------- |
+              | Black border around card    | ✅ Yes (due to outer color + padding) | 🚫 No                  |
+              | Even 50/50 image/text split | ❌ Not perfect                        | ✅ Perfect              |
+              | Shared rounded corners      | Partial                              | ✅ Full (via ClipRRect) |
+              | Clean top image fill        | ❌ Often inset                        | ✅ Full edge-to-edge    |
+              | Color placement             | Whole card black                     | Only bottom half black |
+
+              ---
+
+              If you want to keep your layout style (with padding) **but remove the border**, the easiest tweak is:
+
+              ```dart
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              ```
+
+              and remove the padding wrapping the entire column — only pad the **bottom half container** instead.
+
+              ---
