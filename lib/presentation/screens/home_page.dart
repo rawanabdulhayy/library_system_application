@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/all_books_widget.dart';
 import 'package:library_system_application/presentation/widgets/top_three_books.dart';
 
-import '../widgets/simple_nav_bar.dart';
+import '../widgets/nav_bar/simple_nav_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,15 +14,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0; // track selected index
-
-  void _onNavTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-    // You can also handle navigation here if you have multiple pages:
-    // if (index == 0) Navigator.push(...);
-  }
+  // int _currentIndex = 0; // track selected index
+  //
+  // void _onNavTap(int index) {
+  //   setState(() {
+  //     _currentIndex = index;
+  //   });
+  //   // You can also handle navigation here if you have multiple pages:
+  //   // if (index == 0) Navigator.push(...);
+  // }
 
     @override
   Widget build(BuildContext context) {
@@ -44,7 +45,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Spacer(),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_){return SearchPage();}));
+                    },
                     icon: Icon(Icons.search_sharp, size: 28),
                   ),
                 ],
@@ -153,7 +156,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: SimpleNavBar(currentIndex: _currentIndex, onTap: _onNavTap),
+      bottomNavigationBar: const SimpleNavBar(),
     );
   }
 }
