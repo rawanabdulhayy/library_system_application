@@ -120,7 +120,6 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const SimpleNavBar(),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
-import 'package:library_system_application/presentation/widgets/all_books_widget.dart';
-import 'package:library_system_application/presentation/widgets/top_three_books.dart';
+import 'package:library_system_application/presentation/widgets/home_page/all_books_widget.dart';
+import 'package:library_system_application/presentation/widgets/home_page/top_three_books.dart';
 
+import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
+import '../../business_logic/state_management/nav_bar/nav_bar_event.dart';
 import '../widgets/nav_bar/simple_nav_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,7 +49,8 @@ class _HomePageState extends State<HomePage> {
                   Spacer(),
                   IconButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_){return SearchPage();}));
+                      // Navigator.push(context, MaterialPageRoute(builder: (_){return SearchPage();}));
+                      context.read<NavBarBloc>().add(NavigateToTab(1)); // e.g. go to Search tab
                     },
                     icon: Icon(Icons.search_sharp, size: 28),
                   ),
@@ -156,7 +160,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: const SimpleNavBar(),
     );
   }
 }

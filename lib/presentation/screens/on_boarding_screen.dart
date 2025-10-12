@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:library_system_application/presentation/screens/screen_wrapper.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -29,12 +30,13 @@ class OnBoardingScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
               "Read more and stress less with our online book shopping app. "
-                  "Shop from anywhere you are and discover titles that you love. "
-                  "Happy reading!",
+              "Shop from anywhere you are and discover titles that you love. "
+              "Happy reading!",
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 16,
-                height: 1.5, //// adds a bit of spacing between lines for readability
+                height:
+                    1.5, //// adds a bit of spacing between lines for readability
                 color: Colors.black87,
               ),
             ),
@@ -42,6 +44,16 @@ class OnBoardingScreen extends StatelessWidget {
           SizedBox(height: 100),
 
           GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) {
+                    return const ScreenWrapper();
+                  },
+                ),
+              );
+            },
             child: Container(
               width: 320,
               height: 56,
@@ -50,14 +62,14 @@ class OnBoardingScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
-                child: Text("Get Started", style: TextStyle(color: Colors.white)),
+                child: Text(
+                  "Get Started",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Register'),
-          ),
+          Padding(padding: const EdgeInsets.all(8.0), child: Text('Register')),
         ],
       ),
     );
