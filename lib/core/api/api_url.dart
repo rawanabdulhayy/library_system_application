@@ -19,6 +19,6 @@ class ApiUrl {
 
   // All books endpoint
   static String allBooks() {
-    return baseUrl;
+    return '$baseUrl/books';
   }
 }

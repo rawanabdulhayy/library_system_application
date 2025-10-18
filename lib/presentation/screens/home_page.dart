@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_system_application/business_logic/state_management/all_books/all_books_bloc.dart';
 import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/home_page/all_books_widget.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   //   // if (index == 0) Navigator.push(...);
   // }
 
-    @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -50,7 +51,8 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     onPressed: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (_){return SearchPage();}));
-                      context.read<NavBarBloc>().add(NavigateToTab(1)); // e.g. go to Search tab
+                      context.read<NavBarBloc>().add(
+                          NavigateToTab(1)); // e.g. go to Search tab
                     },
                     icon: Icon(Icons.search_sharp, size: 28),
                   ),
@@ -136,8 +138,13 @@ class _HomePageState extends State<HomePage> {
                       'see more',
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_){return SeeMore();}));
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return BlocProvider(
+                          create: (context) => AllBooksBloc(),
+                          child: SeeMore(),
+                        );
+                      }));
                     },
                   ),
                 ],
