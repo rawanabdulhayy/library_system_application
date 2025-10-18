@@ -11,4 +11,8 @@ class ApiUrl {
   static String topBooks(int count) {
     return '$baseUrl/books?max=$count';
   }
+
+  static String randomBook() {
+    return '$baseUrl/books/random';
+  }
 }
