@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_system_application/business_logic/state_management/all_books/all_books_bloc.dart';
+import 'package:library_system_application/business_logic/state_management/top_books/top_books_bloc.dart';
 import 'package:library_system_application/presentation/screens/favourites_page.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_state.dart';
@@ -37,6 +38,7 @@ class ScreenWrapper extends StatelessWidget {
           BlocProvider(create: (context) => AllBooksBloc()),
           BlocProvider(create: (context) => SearchBloc()),
           BlocProvider(create: (context) => RandomBookBloc()),
+          BlocProvider(create: (context) => TopBooksBloc()),
         ],
         child: BlocBuilder<NavBarBloc, NavBarState>(
           builder: (context, state) {

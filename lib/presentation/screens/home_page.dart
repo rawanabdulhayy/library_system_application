@@ -4,6 +4,7 @@ import 'package:library_system_application/business_logic/state_management/all_b
 import 'package:library_system_application/business_logic/state_management/all_books/all_books_event.dart';
 import 'package:library_system_application/business_logic/state_management/random_book/random_book_bloc.dart';
 import 'package:library_system_application/business_logic/state_management/random_book/random_book_state.dart';
+import 'package:library_system_application/business_logic/state_management/top_books/top_books_event.dart';
 import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/home_page/all_books_widget.dart';
@@ -13,6 +14,7 @@ import 'package:library_system_application/presentation/widgets/home_page/top_th
 import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_event.dart';
 import '../../business_logic/state_management/random_book/random_book_event.dart';
+import '../../business_logic/state_management/top_books/top_books_bloc.dart';
 import '../widgets/nav_bar/simple_nav_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<AllBooksBloc>().add(FetchAllBooksEvent());
     context.read<RandomBookBloc>().add(FetchRandomBook());
+    context.read<TopBooksBloc>().add(FetchTopBooksEvent());
   }
 
   @override
