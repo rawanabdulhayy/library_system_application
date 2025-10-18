@@ -12,7 +12,13 @@ class ApiUrl {
     return '$baseUrl/books?max=$count';
   }
 
+  // A Random books endpoint
   static String randomBook() {
     return '$baseUrl/books/random';
+  }
+
+  // All books endpoint
+  static String allBooks() {
+    return baseUrl;
   }
 }
