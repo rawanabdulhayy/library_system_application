@@ -6,4 +6,9 @@ class ApiUrl {
   static String searchBook(String query) {
     return '$baseUrl/books?query=$query';
   }
+
+  // Top books endpoint
+  static String topBooks(int count) {
+    return '$baseUrl/books?max=$count';
+  }
 }
