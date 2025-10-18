@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_system_application/business_logic/state_management/all_books/all_books_bloc.dart';
 import 'package:library_system_application/business_logic/state_management/all_books/all_books_event.dart';
+import 'package:library_system_application/business_logic/state_management/random_book/random_book_bloc.dart';
+import 'package:library_system_application/business_logic/state_management/random_book/random_book_state.dart';
 import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/home_page/all_books_widget.dart';
+import 'package:library_system_application/presentation/widgets/home_page/random_book_widget.dart';
 import 'package:library_system_application/presentation/widgets/home_page/top_three_books.dart';
 
 import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_event.dart';
+import '../../business_logic/state_management/random_book/random_book_event.dart';
 import '../widgets/nav_bar/simple_nav_bar_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -32,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<AllBooksBloc>().add(FetchAllBooksEvent());
+    context.read<RandomBookBloc>().add(FetchRandomBook());
   }
 
   @override
@@ -58,7 +63,8 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       // Navigator.push(context, MaterialPageRoute(builder: (_){return SearchPage();}));
                       context.read<NavBarBloc>().add(
-                          NavigateToTab(1)); // e.g. go to Search tab
+                        NavigateToTab(1),
+                      ); // e.g. go to Search tab
                     },
                     icon: Icon(Icons.search_sharp, size: 28),
                   ),
@@ -70,67 +76,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 25),
-              Container(
-                height: 140,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Image.asset("assets/images/tuesday_mooney.png"),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Novel',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Tuesday Mooney\nTalks to Ghosts',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'Kate Racculia',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              '\$33.00',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              RandomBookWidget(),
               SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,12 +91,17 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return BlocProvider(
-                          create: (context) => AllBooksBloc(),
-                          child: SeeMore(),
-                        );
-                      }));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return BlocProvider(
+                              create: (context) => AllBooksBloc(),
+                              child: SeeMore(),
+                            );
+                          },
+                        ),
+                      );
                     },
                   ),
                 ],

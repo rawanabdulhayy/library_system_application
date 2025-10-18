@@ -4,6 +4,8 @@ import 'package:library_system_application/business_logic/state_management/all_b
 import 'package:library_system_application/presentation/screens/favourites_page.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_state.dart';
+import '../../business_logic/state_management/random_book/random_book_bloc.dart';
+import '../../business_logic/state_management/search/search_bloc.dart';
 import '../widgets/nav_bar/simple_nav_bar_widget.dart';
 import 'home_page.dart';
 import 'search_page.dart';
@@ -15,20 +17,39 @@ class ScreenWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // The IndexedStack swaps visible child based on the current index
-      body: BlocBuilder<NavBarBloc, NavBarState>(
-        builder: (context, state) {
-          return IndexedStack(
-            index: state.selectedIndex,
-            children: [
-              BlocProvider(
-                create: (context) => AllBooksBloc(),
-                child: const HomePage(),
-              ),
-              const SearchPage(),
-              const FavouritesPage(),
-            ],
-          );
-        },
+      // body: BlocBuilder<NavBarBloc, NavBarState>(
+      //   builder: (context, state) {
+      //     return IndexedStack(
+      //       index: state.selectedIndex,
+      //       children: [
+      //         BlocProvider(
+      //           create: (context) => AllBooksBloc(),
+      //           child: const HomePage(),
+      //         ),
+      //         const SearchPage(),
+      //         const FavouritesPage(),
+      //       ],
+      //     );
+      //   },
+      // ),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => AllBooksBloc()),
+          BlocProvider(create: (context) => SearchBloc()),
+          BlocProvider(create: (context) => RandomBookBloc()),
+        ],
+        child: BlocBuilder<NavBarBloc, NavBarState>(
+          builder: (context, state) {
+            return IndexedStack(
+              index: state.selectedIndex,
+              children: const [
+                HomePage(),
+                SearchPage(),
+                FavouritesPage(),
+              ],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: const SimpleNavBar(),
     );
