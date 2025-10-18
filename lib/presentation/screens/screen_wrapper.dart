@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:library_system_application/business_logic/state_management/all_books/all_books_bloc.dart';
 import 'package:library_system_application/presentation/screens/favourites_page.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_bloc.dart';
 import '../../business_logic/state_management/nav_bar/nav_bar_state.dart';
@@ -18,10 +19,13 @@ class ScreenWrapper extends StatelessWidget {
         builder: (context, state) {
           return IndexedStack(
             index: state.selectedIndex,
-            children: const [
-              HomePage(),
-              SearchPage(),
-              FavouritesPage(),
+            children: [
+              BlocProvider(
+                create: (context) => AllBooksBloc(),
+                child: const HomePage(),
+              ),
+              const SearchPage(),
+              const FavouritesPage(),
             ],
           );
         },

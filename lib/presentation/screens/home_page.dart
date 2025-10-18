@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:library_system_application/business_logic/state_management/all_books/all_books_bloc.dart';
+import 'package:library_system_application/business_logic/state_management/all_books/all_books_event.dart';
 import 'package:library_system_application/presentation/screens/search_page.dart';
 import 'package:library_system_application/presentation/screens/see_more.dart';
 import 'package:library_system_application/presentation/widgets/home_page/all_books_widget.dart';
@@ -27,6 +28,11 @@ class _HomePageState extends State<HomePage> {
   //   // You can also handle navigation here if you have multiple pages:
   //   // if (index == 0) Navigator.push(...);
   // }
+  @override
+  void initState() {
+    super.initState();
+    context.read<AllBooksBloc>().add(FetchAllBooksEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
