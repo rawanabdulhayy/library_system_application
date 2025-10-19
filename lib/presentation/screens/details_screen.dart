@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  final String title;
+  final String originalTitle;
+  final String releaseDate;
+  final int pages;
+  final String description;
+  final String cover;
+
+  const DetailsScreen({
+    super.key,
+    required this.title,
+    required this.originalTitle,
+    required this.releaseDate,
+    required this.pages,
+    required this.description,
+    required this.cover,
+  });
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
@@ -23,12 +38,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'The Picture of Dorian Gray',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            Text(
+              widget.originalTitle,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Row(
@@ -37,11 +49,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 // Book Image
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    "assets/images/book_1.png",
+                  child: Image.network(
+                    widget.cover,
                     width: MediaQuery.of(context).size.width * 0.4,
                     height: MediaQuery.of(context).size.width * 0.5,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -60,7 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 text: "Author : ",
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
-                              TextSpan(text: "Oscar Wilde"),
+                              TextSpan(text: "J.K Rowling"),
                             ],
                           ),
                           style: TextStyle(fontSize: 16),
@@ -73,7 +85,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 text: "Category : ",
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
-                              TextSpan(text: "Classics"),
+                              TextSpan(text: "Children's"),
                             ],
                           ),
                           style: TextStyle(fontSize: 16),
@@ -83,10 +95,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: "Rating : ",
+                                text: "Pages : ",
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
-                              TextSpan(text: "4.11/5"),
+                              TextSpan(text: '${widget.pages}'),
                             ],
                           ),
                           style: TextStyle(fontSize: 16),
@@ -96,12 +108,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: "Pricing: ",
+                                text: "Release Date: ",
                                 style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                               TextSpan(
-                                text: "\$25.00",
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+                                text: widget.releaseDate,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),
@@ -121,7 +137,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             onPressed: () {},
                             child: const Text(
                               "Add to Cart",
-                              style: TextStyle(fontSize: 16, color: Colors.white),
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -134,13 +153,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
             const SizedBox(height: 20),
             const Text(
               'Description:',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            Text("Oscar Wilde’s only novel is the dreamlike story of a young man who sells his soul for eternal youth and beauty. In this celebrated work Wilde forged a devastating portrait of the effects of evil and debauchery on a young aesthete in late-19th-century England. Combining elements of the Gothic horror novel and decadent French fiction, the book centers on a striking premise: As Dorian Gray sinks into a life of crime and gross sensuality, his body retains perfect youth and vigor while his recently painted portrait grows day by day into a hideous record of evil, which he must keep hidden from the world. For over a century, this mesmerizing tale of horror and suspense has enjoyed wide popularity. It ranks as one of Wilde's most important creations and among the classic achievements of its kind."),
+            Text(widget.description),
           ],
         ),
       ),

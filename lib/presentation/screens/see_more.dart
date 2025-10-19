@@ -20,7 +20,6 @@ class _SeeMoreState extends State<SeeMore> {
     context.read<AllBooksBloc>().add(FetchAllBooksEvent());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +78,14 @@ class _SeeMoreState extends State<SeeMore> {
                           context,
                           MaterialPageRoute(
                             builder: (_) {
-                              return DetailsScreen();
+                              return DetailsScreen(
+                                title: book.title,
+                                originalTitle: book.originalTitle,
+                                releaseDate: book.releaseDate,
+                                pages: book.pages,
+                                description: book.description,
+                                cover: book.cover,
+                              );
                             },
                           ),
                         );

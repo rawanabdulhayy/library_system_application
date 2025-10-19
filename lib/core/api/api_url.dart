@@ -4,7 +4,7 @@ class ApiUrl {
 
   // Search book endpoint
   static String searchBook(String query) {
-    return '$baseUrl/books?query=$query';
+    return '$baseUrl/books?search=$query';
   }
 
   // Top books endpoint
